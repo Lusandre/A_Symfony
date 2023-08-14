@@ -1,0 +1,206 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Editar centro de trabajo</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="centroTrabajoForm" class="row">
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="nombre">Nombre</label>
+          <div class="input-group">
+            <input
+              id="nombre"
+              class="form-control"
+              placeholder="Nombre del centro de trabajo..."
+              formControlName="nombre"
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="direccion">Dirección</label>
+          <div class="input-group">
+            <input
+              id="direccion"
+              class="form-control"
+              placeholder="Dirección del centro de trabajo..."
+              formControlName="direccion"
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="codigoPostal">Código Postal</label>
+          <div class="input-group">
+            <input
+              id="codigoPostal"
+              class="form-control"
+              placeholder="Código Postal del centro de trabajo..."
+              formControlName="codigoPostal"
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="ciudad">Ciudad</label>
+          <div class="input-group">
+            <input
+              id="ciudad"
+              class="form-control"
+              placeholder="Ciudad del centro de trabajo..."
+              formControlName="ciudad"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="telefono">Teléfono</label>
+          <div class="input-group">
+            <input
+              id="telefono"
+              class="form-control"
+              type="tel"
+              placeholder="Número de teléfono del centro de trabajo..."
+              formControlName="telefono"
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="provincia">Provincia</label>
+          <div class="input-group">
+            <select
+              id="provincia"
+              class="form-select"
+              formControlName="provincia"
+            >
+              <option value="">Selecciona una provincia</option>
+              <option
+                *ngFor="let provincia of provincias"
+                [value]="provincia['@id']"
+              >
+                {{ provincia.nombre }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')"
+      [disabled]="!centroTrabajoForm.valid"
+    >
+      Save
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #add let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="add">Agregar Empleados</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div
+      *ngFor="let coop of empleados; let i = index"
+      class="border-top border-bottom"
+    >
+      <div class="form-check form-check-reverse d-flex justify-content-between">
+        <label class="form-check-label">{{ coop.nombre }}</label>
+        <input
+          class="form-check-input"
+          type="checkbox"
+          [(ngModel)]="selectedEmpladoIds[i]"
+          [value]="coop['@id']"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')"
+    >
+      Save
+    </button>
+  </div>
+</ng-template>
+<h1>
+  <button type="button" class="btn btn-outline-dark" [routerLink]="['../']">
+    <i class="bi bi-arrow-left"></i>
+  </button>
+  Detalles del Centro de Trabajo
+</h1>
+<hr />
+<div class="container my-5">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{ centroTrabajo.nombre }}</h5>
+      <p class="card-text">
+        <strong>Id: </strong>{{ centroTrabajo.id }}<br />
+        <strong>Dirección: </strong>{{ centroTrabajo.direccion }}<br />
+        <strong>Código Postal: </strong>{{ centroTrabajo.codigoPostal }}<br />
+        <strong>Ciudad: </strong>{{ centroTrabajo.ciudad }}<br />
+        <strong>Teléfono: </strong>{{ centroTrabajo.telefono }}<br />
+        <strong>Provincia: </strong>{{ centroTrabajo.provincia }}
+      </p>
+      <button class="btn btn-outline-primary" (click)="open(content)">
+        Editar Centro de Trabajo
+      </button>
+      <button class="btn btn-outline-primary" (click)="openAdd(add)">
+        Add Empleado
+      </button>
+    </div>
+  </div>
+
+  <h2 class="my-4">Empleados del Centro de Trabajo</h2>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">DNI</th>
+        <th scope="col">Dirección</th>
+        <th scope="col">Ciudad</th>
+        <th scope="col">Código Postal</th>
+        <th scope="col">Fecha de Nacimiento</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let empleado of empleadosAdd; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>
+          {{ empleado.nombre }} {{ empleado.apellido1 }}
+          {{ empleado.apellido2 }}
+        </td>
+        <td>{{ empleado.dni }}</td>
+        <td>{{ empleado.direccion }}</td>
+        <td>{{ empleado.ciudad }}</td>
+        <td>{{ empleado.codigoPostal }}</td>
+        <td>{{ empleado.fechaNacimiento | date }}</td>
+
+        <td>
+          <a [routerLink]="['/empleados', empleado.id]" class="btn btn-primary"
+            ><i class="bi bi-eye"></i> Ver</a
+          >
+          <!-- <a (click)="delete(empleado.id)">delete</a> -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

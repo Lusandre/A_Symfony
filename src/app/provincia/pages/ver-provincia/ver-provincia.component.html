@@ -1,0 +1,43 @@
+<div *ngIf="provincia" class="container">
+  <h1>Nombre:{{ provincia.nombre }}</h1>
+  <h2>Id: {{ provincia.id }}</h2>
+  <button class="btn btn-lg btn-outline-primary" (click)="open(content)">
+    Editar Provincia
+  </button>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Editar provincia</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-3">
+        <label for="nombre">Nombre</label>
+        <div class="input-group">
+          <input
+            id="nombre"
+            class="form-control"
+            placeholder="Nombre de la provincia..."
+            name="nombre"
+            [(ngModel)]="nombre"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')"
+    >
+      Save
+    </button>
+  </div>
+</ng-template>
